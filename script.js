@@ -62,7 +62,7 @@ function visualizeSound(stream) {
       const transcript = event.results[event.results.length - 1][0].transcript;
       console.log('Transcript:', transcript);
       console.log("type of translater",typeof JSON.stringify({ question: transcript}))
-      fetch(`http://127.0.0.1:5000/answer`, {
+      fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -104,9 +104,10 @@ function visualizeSound(stream) {
     //   recognition.stop();
     //   console.log("Speech recognition has stopped.");
     // };
-    // recognition.onend=()=>{
-    //   recognition.start();
-    // }
+    recognition.onend=()=>{
+      recognition.start();
+      console.log('speech recognation has restarted')
+    }
     
   } else {
     console.error('Web Speech API is not supported in this browser');
@@ -114,7 +115,7 @@ function visualizeSound(stream) {
 }
 
 // Event listener for when the "Start Visualization" button is clicked
-document.getElementById('startButton').addEventListener('click', async () => {
+window.onload = async() =>{
   try {
     // Request access to the microphone
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true }, { once: true });
@@ -124,4 +125,4 @@ document.getElementById('startButton').addEventListener('click', async () => {
   } catch (err) {
     console.error('Error accessing microphone:', err);
   }
-});
+};
